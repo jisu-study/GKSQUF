@@ -1,5 +1,7 @@
 package com.example.demo.web.dto.RecordCosts;
 
+import com.example.demo.domain.recordCosts.RecordCost;
+import com.example.demo.domain.records.Records;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,14 +11,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class RecordCostAddRequestDto {
 
-    private String cost_category;
-    private String cost_details;
-    private BigDecimal cost_amount;
+    private String costCategory;
+    private String costDetails;
+    private BigDecimal costAmount;
+    private Records record;
 
-    public RecordCostAddRequestDto(String cost_category, String cost_details, BigDecimal cost_amount){
-        this.cost_category = cost_category;
-        this.cost_details = cost_details;
-        this.cost_amount = cost_amount;
+    public RecordCostAddRequestDto(String costCategory, String costDetails, BigDecimal costAmount, Records record){
+        this.costCategory = costCategory;
+        this.costDetails = costDetails;
+        this.costAmount = costAmount;
+        this.record = record;
     }
 
 }

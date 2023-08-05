@@ -1,0 +1,22 @@
+/* styles.css */
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: auto;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+/*td:nth-child(3) {
+    visibility: hidden;
+}*/
+.secret {
+    visibility: hidden;
+}
+tr:hover .actions {
+    visibility: visible;
+}

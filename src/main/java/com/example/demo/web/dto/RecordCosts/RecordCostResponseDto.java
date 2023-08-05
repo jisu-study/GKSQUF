@@ -1,8 +1,8 @@
 package com.example.demo.web.dto.RecordCosts;
 
 import com.example.demo.domain.recordCosts.RecordCost;
+import com.example.demo.domain.records.Records;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,17 +10,19 @@ import java.math.BigDecimal;
 public class RecordCostResponseDto {
 
     //비용 관련
-    private final Integer cost_id;
-    private final String cost_category;
-    private final String cost_details;
-    private final BigDecimal cost_amount;
+    private final Long costId;
+    private final String costCategory;
+    private final String costDetails;
+    private final BigDecimal costAmount;
+    private final Records record;
     private final BigDecimal sum;
 
     public RecordCostResponseDto(RecordCost recordCost, BigDecimal sum){
-        this.cost_id = recordCost.getCost_id();
-        this.cost_category = recordCost.getCost_category();
-        this.cost_details = recordCost.getCost_details();
-        this.cost_amount = recordCost.getCost_amount();
+        this.costId = recordCost.getCostId();
+        this.costCategory = recordCost.getCostCategory();
+        this.costDetails = recordCost.getCostDetails();
+        this.costAmount = recordCost.getCostAmount();
+        this.record = recordCost.getRecord();
         this.sum = sum;
     }
 

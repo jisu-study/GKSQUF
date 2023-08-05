@@ -1,5 +1,6 @@
 package com.example.demo.domain.recordCosts;
 
+import com.example.demo.domain.records.Records;
 import com.example.demo.web.dto.RecordCosts.RecordCostAddRequestDto;
 import com.example.demo.web.dto.RecordCosts.RecordCostUpdateRequestDto;
 import lombok.Builder;
@@ -16,30 +17,34 @@ public class RecordCost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cost_id;
+    private Long costId;
 
     @Column(length = 255, nullable = false)
-    private String cost_category;
+    private String costCategory;
 
     @Column(length = 255, nullable = true)
-    private String cost_details;
+    private String costDetails;
 
     @Column(nullable = true)
-    private BigDecimal cost_amount;     //sql-money == java-BigDecimal
+    private BigDecimal costAmount;     //sql-money == java-BigDecimal
 
+    @ManyToOne
+    @JoinColumn(name = "record_id")
+    private Records record;
 
     @Builder
     public RecordCost(RecordCostAddRequestDto recordCostAddRequestDto){
-        this.cost_category = recordCostAddRequestDto.getCost_category();
-        this.cost_details = recordCostAddRequestDto.getCost_details();
-        this.cost_amount = recordCostAddRequestDto.getCost_amount();
+        this.costCategory = recordCostAddRequestDto.getCostCategory();
+        this.costDetails = recordCostAddRequestDto.getCostDetails();
+        this.costAmount = recordCostAddRequestDto.getCostAmount();
+        this.record = recordCostAddRequestDto.getRecord();
     }
 
 
     public void update(RecordCostUpdateRequestDto recordCostUpdateRequestDto){
-        this.cost_category = recordCostUpdateRequestDto.getCost_category();
-        this.cost_details = recordCostUpdateRequestDto.getCost_details();
-        this.cost_amount = recordCostUpdateRequestDto.getCost_amount();
+        this.costCategory = recordCostUpdateRequestDto.getCostCategory();
+        this.costDetails = recordCostUpdateRequestDto.getCostDetails();
+        this.costAmount = recordCostUpdateRequestDto.getCostAmount();
     }
 
 }

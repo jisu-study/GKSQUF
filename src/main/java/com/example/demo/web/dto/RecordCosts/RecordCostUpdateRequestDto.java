@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class RecordCostUpdateRequestDto {
 
-    private String cost_category;
-    private String cost_details;
-    private BigDecimal cost_amount;
+    private String costCategory;
+    private String costDetails;
+    private BigDecimal costAmount;
 
-    public RecordCostUpdateRequestDto(String cost_category, String cost_details, BigDecimal cost_amount){
-        this.cost_category = cost_category;
-        this.cost_details = cost_details;
-        this.cost_amount = cost_amount;
+    public RecordCostUpdateRequestDto(String costCategory, String costDetails, BigDecimal costAmount){
+        this.costCategory = costCategory;
+        this.costDetails = costDetails;
+        this.costAmount = costAmount;
     }
 }
