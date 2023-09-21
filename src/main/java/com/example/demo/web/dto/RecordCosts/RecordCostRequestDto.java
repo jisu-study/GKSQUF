@@ -13,13 +13,21 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class RecordCostRequestDto {
 
+    //update시 필요
     private Long costId;
     private Long recordId;
 
+    //create+update 공통 요소
     private String costCategory;
     private String costDetails;
     private BigDecimal costAmount;
 
+
+
+
+    /*
+        use to UPDATE
+    */
     @Builder
     public RecordCostRequestDto(Long costId, Long recordId, String costCategory, String costDetails, BigDecimal costAmount){
         this.costId = costId;
@@ -29,6 +37,11 @@ public class RecordCostRequestDto {
         this.costAmount = costAmount;
     }
 
+
+
+    /*
+        use to CREATE
+     */
     @Builder
     public RecordCostRequestDto(String costCategory, String costDetails, BigDecimal costAmount){
         this.costCategory = costCategory;

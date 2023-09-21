@@ -21,32 +21,45 @@ public class RecordCostApiController {
 
 
 
-    //비용표에 한 줄 추가
-    @PostMapping("/api/v1/recordCosts")
+    //create recordCost
+    @PostMapping("/recordCosts")
     public String createCost(@RequestBody RecordCostRequestDto recordCostRequestDto){     //json기반의 메시지로 통신할 것이므로 @RequestBody
 
         recordCostService.createCost(recordCostRequestDto);
         return "redirect:/";
     }
 
-    //한 줄의 내용 업데이트
-    @PutMapping("/api/v1/recordCosts/{costId}")
-    public String updateCost(@RequestBody RecordCostRequestDto recordCostRequestDto,
-                                            @PathVariable Long costId){
-        recordCostService.updateCost(recordCostRequestDto, costId);
+    //update recordCost
+    @PutMapping("/recordCosts")
+    public String updateCost(@RequestBody RecordCostRequestDto recordCostRequestDto){
+        recordCostService.updateCost(recordCostRequestDto);
         return "index";
     }
 
-    //한 줄의 내용 지우기
-    @DeleteMapping("/api/v1/recordCosts/{costId}")
+    //delete recordCost
+    @DeleteMapping("/recordCosts/{costId}")
     public void deleteCost(@PathVariable Long costId){
         recordCostService.deleteCost(costId);
     }
 
+
+
+
+
+    /*
+        데이터 조회 메소드
+     */
+
+    //costId로 특정 recordCost 불러오기
+    @GetMapping("/recordCosts/{costId}")
+    public RecordCostResponseDto getCost(@PathVariable Long costId){
+        return recordCostService.getCost(costId);
+    }
+
     //특정 records와 관련한 모든 recordCost 불러오기
-    @GetMapping("/api/v1/records/{recordId}/recordCosts")
-    public List<RecordCostResponseDto> list(@PathVariable("recordId") Long recordId){
-        return recordCostService.findAll(recordId);
+    @GetMapping("/records/{recordId}/recordCosts")
+    public List<RecordCostResponseDto> findByRecordId(@PathVariable("recordId") Long recordId){
+        return recordCostService.findByRecordId(recordId);
     }
 
 }

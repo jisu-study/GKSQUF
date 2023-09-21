@@ -25,7 +25,7 @@ public class RecordCostService {
     @Transactional
     public Long createCost(RecordCostRequestDto recordCostRequestDto){
 
-        //check
+        //check: dto의 costId가 null값이어야함.
         if(recordCostRequestDto.getCostId() != null){
             throw new IllegalArgumentException("생성 오류 - costId가 이미 생성되어 있습니다.");
         }
@@ -42,11 +42,10 @@ public class RecordCostService {
     }
 
     @Transactional
-    public void updateCost(RecordCostRequestDto recordCostRequestDto, Long costId){
+    public void updateCost(RecordCostRequestDto recordCostRequestDto){
 
-
-        //check
-        RecordCost recordCost = recordCostRepository.findById(costId)
+        //check: dto의 costId로 데이터 찾기
+        RecordCost recordCost = recordCostRepository.findById(recordCostRequestDto.getCostId())
                             .orElseThrow(()->new IllegalArgumentException("업데이트 오류 - 해당 costId를 가진 데이터가 존재하지 않습니다."));
 
         //update
@@ -56,18 +55,30 @@ public class RecordCostService {
     @Transactional
     public void deleteCost(Long costId){
 
-        //check
+        //check: costId로 데이터 찾기
         RecordCost recordCost = recordCostRepository.findById(costId)
                             .orElseThrow(()->new IllegalArgumentException("삭제 오류 - 해당 costId를 가진 데이터가 존재하지 않습니다."));
 
         //delete
         recordCostRepository.delete(recordCost);
     }
-    
-    @Transactional(readOnly = true)
-    public List<RecordCostResponseDto> findAll(Long recordId){
 
-        //find
+
+    @Transactional(readOnly = true)
+    public RecordCostResponseDto getCost(Long costId){
+
+        //check: costId로 데이터 찾기
+        RecordCost recordCost = recordCostRepository.findById(costId)
+                .orElseThrow(()->new IllegalArgumentException("불러오기 오류 - 해당 costId를 가진 데이터가 존재하지 않습니다."));
+
+        //get
+        return new RecordCostResponseDto(recordCost);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RecordCostResponseDto> findByRecordId(Long recordId){
+
+        //find: recordId로 관련 Cost 데이터 찾기
         List<RecordCost> recordCostList = recordCostRepository.findAllByRecordId(recordId);
 
         //list
