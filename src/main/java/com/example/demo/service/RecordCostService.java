@@ -2,9 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.domain.recordCosts.RecordCost;
 import com.example.demo.domain.recordCosts.RecordCostRepository;
-import com.example.demo.web.dto.RecordCosts.RecordCostAddRequestDto;
+import com.example.demo.domain.records.Records;
+import com.example.demo.domain.records.RecordsPostsRepository;
+import com.example.demo.web.dto.RecordCosts.RecordCostRequestDto;
 import com.example.demo.web.dto.RecordCosts.RecordCostResponseDto;
-import com.example.demo.web.dto.RecordCosts.RecordCostUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,58 +19,63 @@ import java.util.List;
 public class RecordCostService {
 
     private final RecordCostRepository recordCostRepository;
+    private final RecordsPostsRepository recordsPostsRepository;
 
 
-    //비용표에 한 줄 추가
     @Transactional
-    public RecordCostResponseDto addCost(RecordCostAddRequestDto recordCostAddRequestDto){
-        RecordCost recordCost = new RecordCost(recordCostAddRequestDto);
-        recordCostRepository.save(recordCost);
+    public Long createCost(RecordCostRequestDto recordCostRequestDto){
 
-        //TODO : 총합 계산하는 수식 들어가야함.
-        BigDecimal sum = BigDecimal.valueOf(0);
+        //check
+        if(recordCostRequestDto.getCostId() != null){
+            throw new IllegalArgumentException("생성 오류 - costId가 이미 생성되어 있습니다.");
+        }
 
-        return new RecordCostResponseDto(recordCost, sum);
+//        Records records = recordsPostsRepository.findById(recordCostRequestDto.getRecordId())
+//                .orElseThrow(()-> new IllegalArgumentException("생성 오류 - 존재하지 않은 recordId를 전달받았습니다."));
+
+        Records records = recordsPostsRepository.findById(Long.valueOf(71))
+                .orElseThrow(() -> new IllegalArgumentException("몬가...잘못됨..."));
+
+        //create
+        RecordCost recordCost = recordCostRequestDto.toEntity(records);
+        return recordCostRepository.save(recordCost).getCostId();               //CONCERN: 혹시 나중에 쓰일까봐 일단 costId를 반환하도록 해놨음.
     }
 
-    //한 줄의 내용 업데이트(지우고 다시 쓰기)
     @Transactional
-    public RecordCostResponseDto updateCost(RecordCostUpdateRequestDto recordCostUpdateRequestDto, Long costId){
+    public void updateCost(RecordCostRequestDto recordCostRequestDto, Long costId){
+
+
+        //check
         RecordCost recordCost = recordCostRepository.findById(costId)
-                            .orElseThrow(()->new IllegalArgumentException("잘못된 접근 - 데이터가 존재하지 않습니다."));
-        recordCost.update(recordCostUpdateRequestDto);
+                            .orElseThrow(()->new IllegalArgumentException("업데이트 오류 - 해당 costId를 가진 데이터가 존재하지 않습니다."));
 
-        //TODO : 총합 계산하는 수식 들어가야함.
-        BigDecimal sum = BigDecimal.valueOf(0);
-
-        return new RecordCostResponseDto(recordCost, sum);
+        //update
+        recordCost.update(recordCostRequestDto);
     }
 
-    //한 줄의 내용 지우기
     @Transactional
     public void deleteCost(Long costId){
 
+        //check
         RecordCost recordCost = recordCostRepository.findById(costId)
-                            .orElseThrow(()->new IllegalArgumentException("잘못된 접근 - 데이터가 존재하지 않습니다."));
+                            .orElseThrow(()->new IllegalArgumentException("삭제 오류 - 해당 costId를 가진 데이터가 존재하지 않습니다."));
 
+        //delete
         recordCostRepository.delete(recordCost);
-
-        //CONCERN : ResponseDto 전달해야하나? sum 반영 때문에?
     }
     
-    //특정 기록과 관련한 모든 줄 불러오기
-    //CONCERN : 리턴 형식...DTO LIST? 그냥 ENTITY LIST?
-    // - 일단 다른 함수들과 리턴 형식 통일하려고 DTO 리스트로 리턴하긴 했는데, 불필요해보이긴함...
-    //TODO : 아예 미구현 함수
     @Transactional(readOnly = true)
     public List<RecordCostResponseDto> findAll(Long recordId){
 
-        List<RecordCostResponseDto> costDTOList = new ArrayList<>();
+        //find
+        List<RecordCost> recordCostList = recordCostRepository.findAllByRecordId(recordId);
 
-        List<RecordCost> costList = recordCostRepository.findAllByRecordId(recordId);
+        //list
+        List<RecordCostResponseDto> responseDtoList = new ArrayList<>();
+        for(RecordCost rc: recordCostList) {
+           responseDtoList.add(new RecordCostResponseDto(rc));
+        }
 
-        //problem : sum 어쩌지...?
-
-        return costDTOList;
+        return responseDtoList;
     }
 }

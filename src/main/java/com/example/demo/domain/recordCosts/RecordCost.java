@@ -1,8 +1,7 @@
 package com.example.demo.domain.recordCosts;
 
 import com.example.demo.domain.records.Records;
-import com.example.demo.web.dto.RecordCosts.RecordCostAddRequestDto;
-import com.example.demo.web.dto.RecordCosts.RecordCostUpdateRequestDto;
+import com.example.demo.web.dto.RecordCosts.RecordCostRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,29 +21,29 @@ public class RecordCost {
     @Column(length = 255, nullable = false)
     private String costCategory;
 
-    @Column(length = 255, nullable = true)
+    @Column(length = 255)
     private String costDetails;
 
-    @Column(nullable = true)
-    private BigDecimal costAmount;     //sql-money == java-BigDecimal
+    @Column
+    private BigDecimal costAmount;     //DB에서는 decimal(8,2)
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "record_id")
-    private Records record;
+    private Records records;
 
     @Builder
-    public RecordCost(RecordCostAddRequestDto recordCostAddRequestDto){
-        this.costCategory = recordCostAddRequestDto.getCostCategory();
-        this.costDetails = recordCostAddRequestDto.getCostDetails();
-        this.costAmount = recordCostAddRequestDto.getCostAmount();
-        this.record = recordCostAddRequestDto.getRecord();
+    public RecordCost(String costCategory, String costDetails, BigDecimal costAmount, Records records){
+        this.costCategory = costCategory;
+        this.costDetails = costDetails;
+        this.costAmount = costAmount;
+        this.records = records;
     }
 
 
-    public void update(RecordCostUpdateRequestDto recordCostUpdateRequestDto){
-        this.costCategory = recordCostUpdateRequestDto.getCostCategory();
-        this.costDetails = recordCostUpdateRequestDto.getCostDetails();
-        this.costAmount = recordCostUpdateRequestDto.getCostAmount();
+    public void update(RecordCostRequestDto recordCostRequestDto){
+        this.costCategory = recordCostRequestDto.getCostCategory();
+        this.costDetails = recordCostRequestDto.getCostDetails();
+        this.costAmount = recordCostRequestDto.getCostAmount();
     }
 
 }
