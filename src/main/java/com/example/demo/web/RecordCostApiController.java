@@ -26,7 +26,7 @@ public class RecordCostApiController {
     public String createCost(@RequestBody RecordCostRequestDto recordCostRequestDto){     //json기반의 메시지로 통신할 것이므로 @RequestBody
 
         recordCostService.createCost(recordCostRequestDto);
-        return "redirect:/";
+        return "index";
     }
 
     //update recordCost

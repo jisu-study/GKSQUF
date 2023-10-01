@@ -29,7 +29,7 @@ var main = {
 
         $.ajax({
             type: "POST",
-            url: '/api/v1/recordCosts',
+            url: '/recordCosts',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -57,7 +57,7 @@ var main = {
 
         $.ajax({
             type: "PUT",
-            url: 'api/v1/recordCosts/'+costId,
+            url: '/recordCosts/'+costId,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -80,7 +80,7 @@ var main = {
 
         $.ajax({
             type: 'DELETE',
-            url: 'api/v1/recordCosts/'+costId,
+            url: '/recordCosts/'+costId,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             success: function (response){

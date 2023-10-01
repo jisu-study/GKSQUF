@@ -1,0 +1,1 @@
+insert into records(record_id, record_title, location, start_date, end_date) values (71, 'cost_test', 'test', '2019-01-01', '2019-01-01');

@@ -40,3 +40,4 @@ out/
 ##custom
 /src/test/
 *.properties
+*.yml
