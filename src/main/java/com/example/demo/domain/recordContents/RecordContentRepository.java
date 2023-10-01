@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public interface RecordContentRepository extends JpaRepository<RecordContent, Long> {
 
-    //List<RecordContent> findByOOrderByRecordContentIdDesc();
+    List<RecordContent> findByOrderByRecordContentIdDesc();
 
-    //Optional<RecordContent> findByRecords_RecordIdAndDate(Long recordId, Date date);
+    Optional<RecordContent> findByRecords_RecordIdAndDate(Long recordId, Date date);
 
-    //List<RecordContent> findByRecords(Records records);
+    List<RecordContent> findByRecords(Records records);
 
 }

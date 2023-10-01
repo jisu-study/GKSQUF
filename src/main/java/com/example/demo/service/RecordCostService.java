@@ -30,11 +30,11 @@ public class RecordCostService {
             throw new IllegalArgumentException("생성 오류 - costId가 이미 생성되어 있습니다.");
         }
 
-//        Records records = recordsPostsRepository.findById(recordCostRequestDto.getRecordId())
-//                .orElseThrow(()-> new IllegalArgumentException("생성 오류 - 존재하지 않은 recordId를 전달받았습니다."));
+        Records records = recordsPostsRepository.findById(recordCostRequestDto.getRecordId())
+                .orElseThrow(()-> new IllegalArgumentException("생성 오류 - 존재하지 않은 recordId를 전달받았습니다."));
 
-        Records records = recordsPostsRepository.findById(Long.valueOf(71))
-                .orElseThrow(() -> new IllegalArgumentException("몬가...잘못됨..."));
+//        Records records = recordsPostsRepository.findById(Long.valueOf(71))
+//                .orElseThrow(() -> new IllegalArgumentException("몬가...잘못됨..."));
 
         //create
         RecordCost recordCost = recordCostRequestDto.toEntity(records);

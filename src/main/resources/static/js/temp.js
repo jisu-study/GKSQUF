@@ -22,6 +22,7 @@ var main = {
 
     save: function (){
         var data = {
+            recordId: 71,
             costCategory: $("#category").val(),
             costDetails: $("#details").val(),
             costAmount: $("#amount").val()
@@ -49,6 +50,7 @@ var main = {
 
     update: function (){
         var data = {
+            recordId: 71,
             details: $("#details").val(),
             amount: $("#amount").val()
         };

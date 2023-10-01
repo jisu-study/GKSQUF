@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface RecordsPostsRepository extends JpaRepository<Records, Long> {
 
-    //List<Records> findByOOrderByRecordIdDesc();
+    List<Records> findByOrderByRecordIdDesc();
 }

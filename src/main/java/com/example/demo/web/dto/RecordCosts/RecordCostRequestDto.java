@@ -15,9 +15,9 @@ public class RecordCostRequestDto {
 
     //update시 필요
     private Long costId;
-    private Long recordId;
 
     //create+update 공통 요소
+    private Long recordId;
     private String costCategory;
     private String costDetails;
     private BigDecimal costAmount;
@@ -43,7 +43,8 @@ public class RecordCostRequestDto {
         use to CREATE
      */
     @Builder
-    public RecordCostRequestDto(String costCategory, String costDetails, BigDecimal costAmount){
+    public RecordCostRequestDto(Long recordId, String costCategory, String costDetails, BigDecimal costAmount){
+        this.recordId = recordId;
         this.costCategory = costCategory;
         this.costDetails = costDetails;
         this.costAmount = costAmount;
