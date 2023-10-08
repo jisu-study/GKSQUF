@@ -3,9 +3,17 @@ var main = {
     init: function (){
         var _this = this;
 
-        $("#btn-upload").click(function (){
+        $(document).ready(function (){
+            _this.loadTable();
+        });
+
+        $("#btn-create").click(function (){
             _this.save();
         });
+
+        $("#btn-update").click(function (){
+            _this.update();
+        })
 
         $("#btn-delete").click(function (){
             _this.delete();
@@ -13,11 +21,41 @@ var main = {
     },
 
     loadTable: function (){
-        const displayList = document.getElementById('display-list');
-        const totalElement = document.getElementById('total');
-        let total = 0;
 
-        displayList.innerHTML = '';
+        //tbody 객체 불러오기
+        var tableBody = document.getElementById('table-body');
+
+        //recordId 추출
+        var urlParams = new URLSearchParams(window.location.search);
+        var recordId = urlParams.get('recordId');
+
+        recordId = 71;          //test용...
+
+
+        /*
+           서버에서 데이터 불러오기
+         */
+
+        //GET '/records/{recordId}/recordCosts' 요청
+        $.get("/records/recordCosts", {recordId : recordId}, function (response){
+
+            //json문자열 -> javascript 객체
+            var obj = JSON.parse(response);
+            console.log(obj);
+
+            //table에 표시
+            obj.forEach(function (item) {
+                var row = document.createElement("tr");
+                row.innerHTML = "<td>" + item.costId + "</td>"
+                            + "<td>" + item.costCategory + "</td>"
+                            + "<td><input type='text' id='details' value=" + item.costDetails + "></td>"
+                            + "<td><input type='number' id='amount' value=" + item.costAmount + "></td>"
+                            + "<td><button id=\"btn-update\">+</button><button id=\"btn-delete\">-</button></td>";
+
+                tableBody.append(row);
+            })
+        });
+
     },
 
     save: function (){
@@ -31,7 +69,7 @@ var main = {
         $.ajax({
             type: "POST",
             url: '/recordCosts',
-            dataType: 'json',
+            dataType: 'text',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
             success: function (response){
@@ -71,9 +109,9 @@ var main = {
             }
         });
 
-        var total = $("#total").val();
+        //var total = $("#total").val();
         //update total
-        total.text(total - 0 + data.amount);
+        //total.text(total - 0 + data.amount);
     },
 
     delete: function (){
@@ -93,9 +131,9 @@ var main = {
             }
         })
 
-        var total = $("#total").val();
-        //update total
-        total.text(total - amount);
+        // var total = $("#total").val();
+        // //update total
+        // total.text(total - amount);
     }
 };
 
