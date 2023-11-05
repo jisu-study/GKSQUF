@@ -1,0 +1,33 @@
+server:
+  servlet:
+    encoding:
+      force-response: true        #mustache 한글 깨짐 오류 해결
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG            #logger에 로그 출력
+        type: TRACE           #바인딩된 파라미터도 같이 출력
+
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/mango
+    username: root
+    password: 1234
+
+  session:
+    jdbc:
+      initialize-schema: always    #어플리케이션 실행 시 spring_session table 자동 추가
+
+  #JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true          #실행되는 쿼리를 콘솔에 로그로 출력
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect   #Allows Hibernate to generate SQL optimized for a particular DBMS
+        format_sql: true                                #SQL 쿼리 로그 '예쁘게' 출력

@@ -39,5 +39,5 @@ out/
 
 ##custom
 /src/test/
-*.properties
-*.yml
+#*.properties
+#*.yml

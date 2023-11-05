@@ -1,5 +1,6 @@
 package com.example.demo.domain.records;
 
+import com.example.demo.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,17 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Records {
+//@Table(name = "records")
+public class Records extends BaseTimeEntity {
 
+    //private final long cost_id;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recordId;
+    private long recordId;
+
+    /*@Column(length = 500, nullable = true)
+    private int cost;
+    //private Cost cost; - 다른 Cost클래스(테이블) 있을때*/
 
     @Column(length = 255, nullable = false)
     private String recordTitle;
@@ -28,9 +35,13 @@ public class Records {
     @Column(nullable = false)
     private Date endDate;
 
+    /*@Column(columnDefinition = "TEXT", nullable = false)
+    private String content;*/
+
 
     @Builder
-    public Records(Long recordId, String recordTitle, String location, Date startDate, Date endDate) {
+    public Records(long recordId,String recordTitle, String location, Date startDate, Date endDate) {
+        // this.cost_id = cost_id;
         this.recordId = recordId;
         this.recordTitle = recordTitle;
         this.location = location;
@@ -38,7 +49,8 @@ public class Records {
         this.endDate = endDate;
     }
 
-    public void update(Long recordId,String recordTitle, String location, Date startDate, Date  endDate) {
+    public void update(String recordTitle, String location, Date startDate, Date  endDate) {
+        // this.cost_id = cost_id;
         this.recordId = recordId;
         this.recordTitle = recordTitle;
         this.location = location;
@@ -46,3 +58,4 @@ public class Records {
         this.endDate = endDate;
     }
 }
+
